@@ -2,7 +2,7 @@ module Clock exposing (Clock, withPeriod, setPeriod, update)
 
 {-| Clock is designed to work with [elm-lang/animation-frame](package.elm-lang.org/packages/elm-lang/animation-frame/latest/AnimationFrame). Your model will get consistently-paced updates, despite fluctuations in frame diffs.
 
-@docs Clock, withDelta, setDelta, update
+@docs Clock, withPeriod, setPeriod, update
 -}
 
 import Time exposing (Time)
