@@ -12,14 +12,14 @@ all =
             \() ->
                 Expect.equal
                     "Howdy"
-                    (Clock.update up 0.1 clock "Howdy" |> snd)
+                    (Clock.update up 0.1 clock "Howdy" |> Tuple.second)
         , test "One model update if diffs add up to period" <|
             \() ->
                 Expect.equal
                     "Howdy1"
                     (Clock.update up 0.1 clock "Howdy"
                         |> uncurry (Clock.update up 0.9)
-                        |> snd
+                        |> Tuple.second
                     )
         , test "Two model updates if diffs add up to two periods" <|
             \() ->
@@ -30,14 +30,14 @@ all =
                         |> uncurry (Clock.update up 0.4)
                         |> uncurry (Clock.update up 0.4)
                         |> uncurry (Clock.update up 0.4)
-                        |> snd
+                        |> Tuple.second
                     )
         , test "Two updates if diff is big as two periods" <|
             \() ->
                 Expect.equal
                     "Howdy12"
                     (Clock.update up 2.1 clock "Howdy"
-                        |> snd
+                        |> Tuple.second
                     )
         , test "Changing period" <|
             \() ->
@@ -47,7 +47,7 @@ all =
                         0.5
                         (Clock.setPeriod 0.2 usedClock)
                         "Howdy"
-                        |> snd
+                        |> Tuple.second
                     )
         ]
 
@@ -64,4 +64,4 @@ clock =
 
 usedClock : Clock
 usedClock =
-    Clock.update up 2.1 clock "oldmodel" |> fst
+    Clock.update up 2.1 clock "oldmodel" |> Tuple.first
