@@ -1,5 +1,5 @@
 {
-    "version": "1.0.2",
+    "version": "1.0.3",
     "summary": "Fixed time-step update loop",
     "repository": "https://github.com/nphollon/update-clock.git",
     "license": "Apache2.0",

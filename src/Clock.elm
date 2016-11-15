@@ -20,7 +20,7 @@ type Clock
 
 {-| Create a clock that updates with the given real-time period.
 
-    withDelta 0.1 -- calls the tick function ten times per second
+    withDelta (100 * Time.millisecond) -- calls the tick function ten times per second
 -}
 withPeriod : Time -> Clock
 withPeriod period =

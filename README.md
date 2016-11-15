@@ -28,9 +28,9 @@ init =
         }
     }
 
-delta : Float
+delta : Time
 delta =
-    0.033
+    (1/30) * Time.second
 
 update : Action -> Model -> Model
 update action model =
