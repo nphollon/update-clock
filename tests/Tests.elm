@@ -24,7 +24,7 @@ all =
         , test "Two model updates if diffs add up to two periods" <|
             \() ->
                 Expect.equal
-                    "Howdy12"
+                    "Howdy11"
                     (Clock.update up 0.4 clock "Howdy"
                         |> uncurry (Clock.update up 0.4)
                         |> uncurry (Clock.update up 0.4)
@@ -35,26 +35,16 @@ all =
         , test "Two updates if diff is big as two periods" <|
             \() ->
                 Expect.equal
-                    "Howdy12"
+                    "Howdy11"
                     (Clock.update up 2.1 clock "Howdy"
-                        |> Tuple.second
-                    )
-        , test "Changing period" <|
-            \() ->
-                Expect.equal
-                    "Howdy345"
-                    (Clock.update up
-                        0.5
-                        (Clock.setPeriod 0.2 usedClock)
-                        "Howdy"
                         |> Tuple.second
                     )
         ]
 
 
-up : Int -> String -> String
-up time model =
-    model ++ toString time
+up : Float -> String -> String
+up dt model =
+    model ++ toString (round dt)
 
 
 clock : Clock

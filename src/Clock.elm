@@ -1,8 +1,8 @@
-module Clock exposing (Clock, withPeriod, setPeriod, update)
+module Clock exposing (Clock, withPeriod, update)
 
 {-| Clock is designed to work with [elm-lang/animation-frame](package.elm-lang.org/packages/elm-lang/animation-frame/latest/AnimationFrame). Your model will get consistently-paced updates, despite fluctuations in frame diffs.
 
-@docs Clock, withPeriod, setPeriod, update
+@docs Clock, withPeriod, update
 -}
 
 import Time exposing (Time)
@@ -14,7 +14,6 @@ type Clock
     = Clock
         { lag : Time
         , period : Time
-        , time : Int
         }
 
 
@@ -26,25 +25,17 @@ withPeriod : Time -> Clock
 withPeriod period =
     Clock
         { lag = 0
-        , time = 0
         , period = period
         }
-
-
-{-| Change a clock's period to the given value.
--}
-setPeriod : Time -> Clock -> Clock
-setPeriod period (Clock clock) =
-    Clock { clock | period = period }
 
 
 {-| Called like so:
 
     update up diff clock model
 
-The diff is a real-time diff, such as what is given by AnimationFrame.diffs. This function will pass the diff to the clock. If the diff causes the clock's counter to increment, then `up` will be called with the counter and the model.
+The diff is a real-time diff, such as what is given by AnimationFrame.diffs. This function will pass the diff to the clock. If the diff causes the clock's counter to increment, then `up` will be called with the period and the model.
 -}
-update : (Int -> a -> a) -> Time -> Clock -> a -> ( Clock, a )
+update : (Time -> a -> a) -> Time -> Clock -> a -> ( Clock, a )
 update up dt (Clock clock) model =
     let
         reduceLag ( Clock c, m ) =
@@ -52,12 +43,8 @@ update up dt (Clock clock) model =
                 ( Clock c, m )
             else
                 reduceLag
-                    ( Clock
-                        { c
-                            | lag = c.lag - c.period
-                            , time = c.time + 1
-                        }
-                    , up (c.time + 1) m
+                    ( Clock { c | lag = c.lag - c.period }
+                    , up c.period m
                     )
     in
         reduceLag
