@@ -21,16 +21,12 @@ type alias Particle =
 
 init : Model
 init =
-    { clock = Clock.withPeriod delta
+    { clock = Clock.withPeriod (33 * Time.millisecond)
     , particle =
         { position = 0
         , velocity = 1
         }
     }
-
-delta : Time
-delta =
-    (1/30) * Time.second
 
 update : Action -> Model -> Model
 update action model =
@@ -45,8 +41,8 @@ update action model =
                     , particle = particle
                 }
 
-physicsUpdate : Int -> Particle -> Particle
-physicsUpdate t particle =
+physicsUpdate : Time -> Particle -> Particle
+physicsUpdate delta particle =
     { particle
         | position = particle.position + particle.velocity * delta
         , velocity = particle.velocity + acceleration * delta
