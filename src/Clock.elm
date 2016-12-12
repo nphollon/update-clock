@@ -1,8 +1,8 @@
-module Clock exposing (Clock, withPeriod, update)
+module Clock exposing (Clock, lag, withPeriod, update)
 
 {-| Clock is designed to work with [elm-lang/animation-frame](package.elm-lang.org/packages/elm-lang/animation-frame/latest/AnimationFrame). Your model will get consistently-paced updates, despite fluctuations in frame diffs.
 
-@docs Clock, withPeriod, update
+@docs Clock, withPeriod, lag, update
 -}
 
 import Time exposing (Time)
@@ -27,6 +27,13 @@ withPeriod period =
         { lag = 0
         , period = period
         }
+
+
+{-| Return the amount of lag between the animation frame and the last physics update.
+-}
+lag : Clock -> Time
+lag (Clock clock) =
+    clock.lag
 
 
 {-| Called like so:
